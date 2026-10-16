@@ -1,0 +1,674 @@
+{
+  "meeting_id": "MTG-2026-10-15-INVOICE-ALERTS",
+  "summary": "This meeting focused on gathering requirements to enhance the invoice automation bot with alerts for stuck approvals, aiming to reduce late payments and capture early payment discounts. It was decided that the bot will send SLA-based reminders and escalations via Teams (with email as a fallback), including a deep link to the SAP approval screen. Reminders will be bundled and sent twice daily, with individual real-time reminders for discount invoices, and a daily digest will be provided to the AP team. Priya Nair will send the meeting minutes today and a draft Business Requirements Document by Mon 19 Oct 2026 (said: by Monday). Action items were assigned to confirm details and address dependencies.\n\n**Key points**\n- The bot will send SLA-based reminders via Teams (email fallback) to approvers, escalating to managers and the Finance Controller if ignored (4:35, 5:56).\n- Reminders will include a deep link to the SAP approval screen; direct approval from Teams is deferred (5:33).\n- Reminders will be bundled per approver and sent twice daily (10 AM and 3 PM), except for discount invoices which will be individual and real-time (9:04).\n- A daily digest of overdue and soon-to-breach invoices will be sent to the AP Teams channel (8:13, 13:41).\n- The scope excludes Singapore entity approvers, in-card approval from Teams, and opt-out/snooze functionality for now (6:51, 9:38).\n- Anita Desai will confirm if the ten lakh threshold for a second approver is gross or net (3:52) and check with HR for the holiday list (4:26).\n- Vikram Shetty will send the SAP approval screen deep link format today (11:17).",
+  "MOM": "Hi all,\n\nThanks for attending today's discussion on Invoice Approval Alerts. The purpose was to understand why invoices get stuck at approval and gather requirements to enhance the invoice automation bot. Currently, 18-19% of invoices are paid late, leading to missed early payment discounts and financial losses.\n\n**Meeting:** Invoice Approval Alerts - Requirements Discussion | **Date:** 2026-10-15 | **Facilitator:** Priya Nair\n**Attendees:** Priya Nair, Rohan Mehta, Karthik Iyer, Sneha Rao (joined late), Anita Desai (joined late), Vikram Shetty (joined late)\n\n### Key discussion points\n- The current invoice bot routes invoices correctly but lacks follow-up and escalation for stuck approvals.\n- Late payments and missed early payment discounts are significant issues, causing CFO concern.\n- The AP team spends considerable time chasing approvals and lacks real-time visibility.\n- SLAs were defined: 3 working days for normal invoices, 1 working day for discount invoices, plus 1 day for invoices > 10 lakh requiring a second approver.\n- A holiday list from HR is needed to calculate working days.\n- Reminder and escalation mechanisms were proposed, prioritizing Teams notifications with email as a fallback.\n- Content for reminder messages and the feasibility of direct approval from Teams were explored.\n- Handling of approvers on leave and the quality of delegate data in SAP were discussed.\n- The AP team requires a daily digest of overdue invoices, including those breaching today.\n- Logging of all reminders and escalations for audit purposes is a a must.\n- Deep linking to the SAP approval screen is feasible; direct approval from Teams is complex.\n- Test data and environment setup for simulating date-dependent scenarios are required.\n- Success criteria include reducing late payments and increasing discount capture.\n\n### Decisions\n- A deep link to the SAP approval screen will be implemented in reminders first; in-card approval from Teams will be considered later.\n- Singapore entity approvers will be handled in a phase two; the current scope is IST business hours only.\n- A daily digest for the AP team will be implemented now; a full dashboard will be backlogged for later.\n- Reminders will be bundled per approver and sent twice daily (10 AM and 3 PM), except for discount invoices which will be individual and real-time.\n- There will be no opt-out or snooze functionality for reminders for now.\n- Priya Nair will send the MOM today and the BRD draft by Monday.\n\n### Action items\n| # | Action | Owner | Due |\n|---|---|---|---|\n| 1 | Confirm if the ten lakh threshold for a second approver is based on gross or net invoice amount. | Anita Desai | |\n| 2 | Ask Deepa in HR for the Karnataka and company holiday list. | Anita Desai | |\n| 3 | Send the URL format for the SAP approval screen deep link. | Vikram Shetty | 15 Oct 2026 (said: today) |\n| 4 | Raise a request with IT for a test Teams channel. | Sneha Rao | |\n| 5 | Track team's time spent on chasing approvals for two weeks before and after go-live to establish a baseline. | Anita Desai | |\n| 6 | Send the Meeting of Minutes (MOM). | Priya Nair | 15 Oct 2026 (said: today) |\n| 7 | Send the Business Requirements Document (BRD) draft. | Priya Nair | 19 Oct 2026 (said: by Monday) |\n| 8 | Ping Meera from audit regarding audit log retention. | Rohan Mehta | |\n| 9 | Copy Meera and Vikram on the MOM. | Priya Nair | |\n\n### Open questions\n- Is the ten lakh threshold for a second approver based on the invoice amount with GST (gross) or without (net)? (Anita Desai)\n- Is the HR holiday list available in a system or an Excel file, and is there an API for it? (Anita Desai)\n- What is the required retention period for audit logs of reminders? (Meera)\n\n### Out of scope / parked\n- Direct approval from Teams (in-card approval)\n- Handling Singapore entity approvers and their time zones\n- A full Power BI dashboard for invoice status\n- Opt-out or snooze functionality for reminders\n\n### Next steps\n- Create an epic and stories under FINAUTO for this project.\n- Link FINAUTO 1142 (bug about inactive user routing) to the new epic.\n- Close FINAUTO 1098 (old ticket about email reminders) as a duplicate, linking it to the new epic.\n- Assign Karthik Iyer to the stories and Sneha Rao to the test tasks for this project.\n- Aim for go-live before Quarter end close (first week of January).\n- The project timeline is estimated at 2 sprints: 1 sprint for SLA logic + Teams reminders, and another for Escalation + Out of Office + Digest.\n- Success will be measured by late payments below five percent within two months of go-live, discount capture above ninety percent, and a reduction in time spent by Anita's team on chasing approvals.\n\nRegards,\nPriya",
+  "jira_actions_requirend": true,
+  "jira_action_description": "Proposed JIRA actions for project FINAUTO:\n\n- **A1** Create Epic: \"Invoice Approval Alerting and Escalation Bot\" (13:52): Requested to create an epic for the project to track invoice approval alerts and escalations.\n    - Implement automated reminders and escalation workflows for invoices stuck in the approval process to reduce late payments and increase early payment discount capture.\n- **A2** Link FINAUTO-1098 --Duplicate--> A1 (13:52): Requested to close FINAUTO-1098 as a duplicate of the new epic.\n- **A3** Move FINAUTO-1098 to Done (resolution Duplicate) (13:52): Requested to close FINAUTO-1098 as a duplicate.\n- **A4** Link FINAUTO-1142 --Relates--> A1 (8:01): Requested to link FINAUTO-1142 to the new epic as it's related to delegate data issues.\n- **A5** Create Story: \"Implement Invoice SLA Calculation Logic\" under A1 assignee Karthik Iyer (3:22): Story to define and implement the core SLA calculation logic based on invoice type, amount, and working days.\n    - Develop and integrate the logic to calculate the approval SLA for invoices, considering normal, discount, and high-value invoices, and excluding 'On Hold' invoices.\n    - AC: Given an invoice with payment terms indicating no early payment discount, When the SLA is calculated, Then the SLA is three working days.\n    - AC: Given an invoice with payment terms indicating an early payment discount, When the SLA is calculated, Then the SLA is one working day.\n    - AC: Given an invoice with a gross amount above ten lakh, When the SLA is calculated, Then an additional one working day is added to its base SLA.\n    - AC: Given an invoice is marked as 'On Hold' in SAP, When the SLA calculation or reminder process runs, Then the invoice is excluded from any SLA breach checks or reminders.\n- **A6** Create Story: \"Develop Approver Reminder Notifications (Teams/Email)\" under A1 assignee Karthik Iyer (4:35): Story to implement the primary reminder mechanism for approvers via Teams and email.\n    - Implement the system to send reminders to approvers for invoices breaching SLA, prioritizing Teams and falling back to email, with appropriate content and bundling rules.\n    - AC: Given an invoice has breached its SLA, When a reminder is triggered for an approver with Teams access, Then a reminder message is sent via Teams.\n    - AC: Given an invoice has breached its SLA, When a reminder is triggered for an approver without Teams access, Then a reminder message is sent via email.\n    - AC: Given an approver has multiple invoices pending, When a reminder is sent (excluding discount invoices), Then a single bundled message is sent containing all pending invoices, with the most urgent on top, at 10 AM and 3 PM IST.\n    - AC: Given a discount invoice is approaching or has breached its SLA, When a reminder is triggered, Then an individual, real-time reminder message is sent.\n    - AC: Given an invoice is due for a reminder, When the reminder is about to be sent, Then the system re-checks the invoice status in SAP to ensure it has not been approved.\n- **A7** Create Story: \"Implement Invoice Approval Escalation Workflow\" under A1 assignee Karthik Iyer (5:56): Story to implement the escalation path for ignored reminders.\n    - Develop the escalation process for invoices that remain unapproved after initial reminders, involving managers and the Finance Controller, and notifying the AP team.\n    - AC: Given a normal invoice breaches SLA on Day 3, When the first reminder is sent to the approver, Then no further escalation occurs on Day 3.\n    - AC: Given a normal invoice is still unapproved on Day 4, When the system checks for escalation, Then a reminder is sent to the approver and their manager is copied.\n    - AC: Given a normal invoice is still unapproved on Day 6, When the system checks for escalation, Then a reminder is sent to the Finance Controller and the AP team is notified.\n    - AC: Given a discount invoice is 4 hours before SLA ends, When the system checks for escalation, Then a reminder is sent to the approver.\n    - AC: Given a discount invoice breaches SLA, When the system checks for escalation, Then a reminder is sent to the approver's manager.\n    - AC: Given a discount invoice is still unapproved by the end of Day 2 after breach, When the system checks for escalation, Then a reminder is sent to the Finance Controller.\n- **A8** Create Story: \"Handle Approvers on Leave with Delegate/Manager Routing\" under A1 assignee Karthik Iyer (7:08): Story to handle approvers who are on leave by routing reminders to delegates or managers.\n    - Implement logic to identify approvers on leave and route reminders/escalations to their designated delegates or, if no delegate, to their manager.\n    - AC: Given an approver is on leave and has a valid delegate configured in SAP, When a reminder or escalation is triggered for an invoice assigned to them, Then the reminder/escalation is sent directly to the delegate.\n    - AC: Given an approver is on leave and has no valid delegate configured in SAP, When a reminder or escalation is triggered for an invoice assigned to them, Then the reminder/escalation is sent directly to their manager.\n- **A9** Create Story: \"Provide Daily AP Team Invoice Status Digest\" under A1 assignee Karthik Iyer (8:13): Story to provide the AP team with a daily digest of overdue and soon-to-be-overdue invoices.\n    - Develop a daily digest message for the AP Teams channel, summarizing invoices past SLA and those that will breach SLA on the current day, grouped by approver.\n    - AC: Given it is 9 AM IST on a working day, When the daily digest is generated, Then a message is posted to the AP Teams channel.\n    - AC: Given there are invoices past SLA, When the daily digest is generated, Then the message lists these invoices, grouped by approver, showing days overdue and potential discount loss.\n    - AC: Given there are invoices that will breach SLA on the current day, When the daily digest is generated, Then the message includes these invoices, grouped by approver, showing their impending breach.\n- **A10** Create Story: \"Implement Audit Logging for Reminders and Escalations\" under A1 assignee Karthik Iyer (10:07): Story to implement logging for all reminder and escalation activities for audit purposes.\n    - Ensure all reminder and escalation activities are logged comprehensively for audit purposes, including recipient, timestamp, channel, and delivery status.\n    - AC: Given a reminder or escalation message is sent, When the action is completed, Then an audit log entry is created.\n    - AC: Given an audit log entry is created, Then it includes the recipient's identity, the timestamp of sending, the communication channel used (Teams/email), and the delivery status (delivered/failed).\n    - AC: Given an audit log entry is created, Then it is stored with the same retention policy as invoice data (8 years, to be confirmed).\n- **A11** Create Story: \"Generate Monthly Report of Approvers Without Valid Delegates\" under A1 assignee Karthik Iyer (7:34): Story to generate a report on approvers lacking valid delegates, identified as useful by Anita.\n    - Develop a mechanism to generate a monthly report listing all approvers who do not have a valid delegate configured in SAP.\n    - AC: Given it is the end of the month, When the report generation process runs, Then a report is generated listing all active approvers who do not have a valid delegate assigned in SAP.\n    - AC: Given the report is generated, Then it is made available to the AP team (e.g., via email or shared drive).\n- **A12** Create Task: \"Confirm 10 Lakh Invoice Threshold Basis (Gross/Net)\" under A1 assignee Anita Desai (3:52): Task to confirm the exact basis for the 10 lakh threshold for second approvers.\n    - Confirm whether the ten lakh threshold for requiring a second approver is based on the gross invoice amount (with GST) or net invoice amount (without GST).\n- **A13** Create Task: \"Obtain Karnataka and Company Holiday List from HR\" under A1 assignee Anita Desai (4:26): Task to obtain the necessary holiday list for SLA calculations.\n    - Contact Deepa in HR to obtain the official list of Karnataka state holidays and company-specific holidays for use in SLA calculations. Also, inquire about API availability for this data.\n- **A14** Create Task: \"Provide SAP Approval Screen Deep Link URL Format\" under A1 assignee Vikram Shetty (11:17): Task for ERP team to provide the SAP deep link format.\n    - Provide the exact URL format required to construct a deep link directly to the invoice approval screen in SAP.\n- **A15** Create Task: \"Request Test Teams Channel for Invoice Bot Notifications\" under A1 assignee Sneha Rao (12:01): Task for testing team to request a dedicated Teams channel for testing.\n    - Raise a request with the IT team to create a dedicated Teams channel for testing the invoice bot's notification and digest functionalities.\n- **A16** Create Task: \"Configure Test Environment for Time Simulation\" under A1 assignee Karthik Iyer (11:49): Task to ensure the test environment supports time simulation for date-dependent scenarios.\n    - Ensure the test environment for the invoice bot allows configuration of the current time to simulate date-dependent scenarios (e.g., SLA breaches, daily digests) without waiting for real-time passage.\n- **A17** Create Task: \"Track AP Team Time Spent Chasing Approvals (Baseline)\" under A1 assignee Anita Desai (12:19): Task to establish a baseline for measuring success metric of reduced manual chasing.\n    - Track the time spent by the AP team on manually chasing invoice approvals for two weeks prior to go-live to establish a baseline for measuring efficiency improvements.\n- **A18** Create Task: \"Confirm Audit Log Retention Period with Audit Team\" under A1 assignee Rohan Mehta (10:34): Task to confirm the audit log retention period with the audit team.\n    - Confirm the required retention period for audit logs of invoice reminders and escalations with Meera from the audit team.\n\nNot actioned:\n- The action items for Priya Nair (sending MOM, BRD) are administrative and not JIRA-trackable development tasks, so they are not included in the JIRA plan.\n- The action item for Priya Nair to copy Meera and Vikram on the MOM is administrative and not a JIRA-trackable development task, so it is not included in the JIRA plan.",
+  "bdr_generated": false,
+  "relevant_jira": [
+    "FINAUTO-1098",
+    "FINAUTO-1142"
+  ],
+  "user_confirmation_provided": false,
+  "last_modified_date": "2026-10-16",
+  "last_modified_time_stamp": "2026-10-16T10:54:48+05:30",
+  "agent_data": {
+    "status": "processed",
+    "transcript_uri": "C:\\Users\\nikhi\\Desktop\\NIKHIL\\GoogleAI\\BRD_Agent_V2\\local_data\\transcripts\\MTG-2026-10-15-INVOICE-ALERTS.txt",
+    "insights": {
+      "meeting_title": "Invoice Approval Alerts - Requirements Discussion",
+      "meeting_date": "2026-10-15",
+      "facilitator": "Priya Nair",
+      "attendees": [
+        {
+          "name": "Priya Nair",
+          "joined_late": false
+        },
+        {
+          "name": "Rohan Mehta",
+          "joined_late": false
+        },
+        {
+          "name": "Karthik Iyer",
+          "joined_late": false
+        },
+        {
+          "name": "Sneha Rao",
+          "joined_late": true
+        },
+        {
+          "name": "Anita Desai",
+          "joined_late": true
+        },
+        {
+          "name": "Vikram Shetty",
+          "joined_late": true
+        }
+      ],
+      "purpose": "To understand the problem of invoices getting stuck at approval and gather requirements to add functionality to the invoice automation bot to handle it.",
+      "problem_statement": "Invoices are getting stuck at approval after routing, leading to late payments (around 18-19%) and missed early payment discounts, causing financial losses and CFO concern. Approvers are not tracking emails, and the AP team lacks visibility into stuck invoices.",
+      "current_state": "The invoice bot handles OCR, PO matching, and routing to the correct approver. However, once an invoice reaches the approver's queue, it often sits there. The AP team manually chases approvers via email and has to check SAP workflows to identify who is holding an invoice. Approvers are often traveling or not checking emails.",
+      "discussion_summary": [
+        "The current invoice bot routes invoices correctly but lacks follow-up and escalation for stuck approvals.",
+        "Late payments and missed early payment discounts are significant issues.",
+        "AP team spends considerable time chasing approvals and lacks real-time visibility.",
+        "SLA definitions for normal and discount invoices were discussed, including a threshold for a second approver.",
+        "The need for a holiday list to calculate working days was identified.",
+        "Reminder and escalation mechanisms were proposed, prioritizing Teams notifications with email as a fallback.",
+        "Content for reminder messages and the possibility of direct approval from Teams were explored.",
+        "Handling of approvers on leave and the quality of delegate data in SAP were raised.",
+        "AP team requires a daily digest of overdue invoices.",
+        "Logging of all reminders and escalations for audit purposes is a must.",
+        "ERP team confirmed deep linking to SAP approval screen is feasible, but direct approval from Teams is complex.",
+        "Test data and environment setup for testing the new functionality were discussed.",
+        "Success criteria for the project were defined, including reducing late payments and increasing discount capture."
+      ],
+      "requirements": [
+        {
+          "id": "FR-01",
+          "kind": "functional",
+          "description": "The invoice bot must send reminders to approvers when an invoice breaches its SLA.",
+          "priority": "must",
+          "source_timestamp": "4:35"
+        },
+        {
+          "id": "FR-02",
+          "kind": "functional",
+          "description": "Reminders must be sent via Teams for users with Teams access.",
+          "priority": "must",
+          "source_timestamp": "4:35"
+        },
+        {
+          "id": "FR-03",
+          "kind": "functional",
+          "description": "Reminders must be sent via email as a fallback for users without Teams access.",
+          "priority": "must",
+          "source_timestamp": "4:47"
+        },
+        {
+          "id": "FR-04",
+          "kind": "functional",
+          "description": "Reminder messages must include vendor name, invoice number, amount, due date, days pending, and a deep link to the approval screen in SAP.",
+          "priority": "must",
+          "source_timestamp": "5:06"
+        },
+        {
+          "id": "FR-05",
+          "kind": "functional",
+          "description": "The bot must escalate to the approver's manager if the reminder is ignored.",
+          "priority": "must",
+          "source_timestamp": "5:56"
+        },
+        {
+          "id": "FR-06",
+          "kind": "functional",
+          "description": "The bot must escalate to the Finance Controller if the manager escalation is ignored.",
+          "priority": "must",
+          "source_timestamp": "5:56"
+        },
+        {
+          "id": "FR-07",
+          "kind": "functional",
+          "description": "The AP team must be notified when an invoice escalates to the Finance Controller.",
+          "priority": "must",
+          "source_timestamp": "6:05"
+        },
+        {
+          "id": "FR-08",
+          "kind": "functional",
+          "description": "If an approver is on leave, the reminder/escalation must go to their delegate directly.",
+          "priority": "must",
+          "source_timestamp": "7:08"
+        },
+        {
+          "id": "FR-09",
+          "kind": "functional",
+          "description": "If an approver is on leave and has no delegate, the reminder/escalation must go to their manager.",
+          "priority": "must",
+          "source_timestamp": "7:08"
+        },
+        {
+          "id": "FR-10",
+          "kind": "functional",
+          "description": "The bot must provide a daily digest to the AP Teams channel at 9 AM listing all invoices past SLA, grouped by approver, showing days overdue and potential discount loss.",
+          "priority": "must",
+          "source_timestamp": "8:13"
+        },
+        {
+          "id": "FR-11",
+          "kind": "functional",
+          "description": "The daily digest for the AP team must also include invoices that will breach SLA on the current day.",
+          "priority": "must",
+          "source_timestamp": "13:41"
+        },
+        {
+          "id": "FR-12",
+          "kind": "functional",
+          "description": "Reminders to approvers must be bundled per approver into a single message, with the most urgent invoices on top.",
+          "priority": "must",
+          "source_timestamp": "8:55"
+        },
+        {
+          "id": "FR-13",
+          "kind": "functional",
+          "description": "Bundled reminders must be sent twice daily, at 10 AM and 3 PM.",
+          "priority": "must",
+          "source_timestamp": "9:04"
+        },
+        {
+          "id": "FR-14",
+          "kind": "functional",
+          "description": "Reminders for discount invoices must be sent individually and in real-time (not batched).",
+          "priority": "must",
+          "source_timestamp": "9:04"
+        },
+        {
+          "id": "FR-15",
+          "kind": "functional",
+          "description": "The bot must recheck invoice status just before sending a reminder to avoid chasing already approved invoices.",
+          "priority": "must",
+          "source_timestamp": "9:28"
+        },
+        {
+          "id": "FR-16",
+          "kind": "functional",
+          "description": "Invoices with an 'On Hold' status in SAP must be excluded from reminders and escalations.",
+          "priority": "must",
+          "source_timestamp": "9:44"
+        },
+        {
+          "id": "FR-17",
+          "kind": "functional",
+          "description": "The system must generate a monthly report of approvers who do not have a valid delegate.",
+          "priority": "could",
+          "source_timestamp": "7:34"
+        },
+        {
+          "id": "NFR-01",
+          "kind": "non_functional",
+          "description": "All reminders and escalations must be logged, including who received it, when, channel used (Teams/email), and delivery status (delivered/failed).",
+          "priority": "must",
+          "source_timestamp": "10:07"
+        },
+        {
+          "id": "NFR-02",
+          "kind": "non_functional",
+          "description": "The test environment must allow configuration of current time to simulate date-dependent scenarios.",
+          "priority": "must",
+          "source_timestamp": "11:49"
+        }
+      ],
+      "business_rules": [
+        {
+          "rule": "Normal invoices have an approval SLA of three working days.",
+          "source_timestamp": "3:22"
+        },
+        {
+          "rule": "Invoices with an early payment discount must be approved in one working day.",
+          "source_timestamp": "3:22"
+        },
+        {
+          "rule": "Invoices above ten lakh (gross amount, to be confirmed) require a second approver, adding one day to the SLA.",
+          "source_timestamp": "3:22"
+        },
+        {
+          "rule": "Working days are based on Karnataka holidays plus company holidays, obtained from HR.",
+          "source_timestamp": "4:10"
+        },
+        {
+          "rule": "Reminder escalation for normal invoices: Day 3 (breach) - reminder to approver; Day 4 - reminder to approver + copy manager; Day 6 - reminder to Finance Controller + AP team notification.",
+          "source_timestamp": "6:05"
+        },
+        {
+          "rule": "Reminder escalation for discount invoices: Four hours before SLA ends - reminder to approver; At breach - reminder to manager; End of Day 2 - reminder to Finance Controller.",
+          "source_timestamp": "6:20"
+        },
+        {
+          "rule": "Business hours are 9 AM to 6 PM IST, Monday to Friday.",
+          "source_timestamp": "6:40"
+        },
+        {
+          "rule": "Only the AP team can put an invoice on 'On Hold' status.",
+          "source_timestamp": "9:59"
+        },
+        {
+          "rule": "Audit logs for reminders should have the same retention as invoices (8 years, to be confirmed by Meera from audit).",
+          "source_timestamp": "10:20"
+        }
+      ],
+      "decisions": [
+        {
+          "decision": "Implement a deep link to the SAP approval screen in reminders first; in-card approval from Teams will be considered later.",
+          "decided_by": "Rohan Mehta",
+          "source_timestamp": "5:33"
+        },
+        {
+          "decision": "Singapore entity approvers will be handled in a phase two; current scope is IST business hours only.",
+          "decided_by": "Rohan Mehta",
+          "source_timestamp": "6:51"
+        },
+        {
+          "decision": "A daily digest for the AP team will be implemented now; a full dashboard will be backlogged for later.",
+          "decided_by": "Priya Nair",
+          "source_timestamp": "8:32"
+        },
+        {
+          "decision": "Reminders will be bundled per approver and sent twice daily (10 AM and 3 PM), except for discount invoices which will be individual and real-time.",
+          "decided_by": "Rohan Mehta",
+          "source_timestamp": "9:04"
+        },
+        {
+          "decision": "There will be no opt-out or snooze functionality for reminders for now.",
+          "decided_by": "Rohan Mehta",
+          "source_timestamp": "9:38"
+        },
+        {
+          "decision": "Priya Nair will send the MOM today and the BRD draft by Monday.",
+          "decided_by": "Priya Nair",
+          "source_timestamp": "14:14"
+        }
+      ],
+      "out_of_scope": [
+        "Direct approval from Teams (in-card approval)",
+        "Handling Singapore entity approvers and their time zones",
+        "A full Power BI dashboard for invoice status",
+        "Opt-out or snooze functionality for reminders"
+      ],
+      "dependencies": [
+        "Holiday list from HR (Deepa to provide)",
+        "IT security team permission for Graph API access (for reading Outlook out-of-office status)",
+        "ERP team (Vikram Shetty) to provide URL format for SAP approval screen deep link",
+        "ERP team to clean up delegate data in SAP (existing ticket)",
+        "IT team to create a test Teams channel (Sneha to raise request)"
+      ],
+      "risks": [
+        "Delay in obtaining IT security permission for Graph API access could delay the 'out of office' feature.",
+        "The quality of delegate data in SAP is currently poor, which might impact the effectiveness of routing to delegates.",
+        "ERP team's stance on direct approval from Teams via bot calls to SAP API due to authentication/audit concerns."
+      ],
+      "success_metrics": [
+        "Late payments below five percent within two months of go-live.",
+        "Discount capture above ninety percent.",
+        "Reduction in time spent by Anita's team on chasing approvals (measured by tracking time before and after go-live)."
+      ],
+      "timeline": "Ideally before Quarter end close (first week of January). Rough estimate: SLA logic + Teams reminders (1 sprint), Escalation + Out of Office + Digest (another sprint).",
+      "action_items": [
+        {
+          "description": "Confirm if the ten lakh threshold for a second approver is based on gross or net invoice amount.",
+          "owner": "Anita Desai",
+          "source_timestamp": "3:52"
+        },
+        {
+          "description": "Ask Deepa in HR for the Karnataka and company holiday list.",
+          "owner": "Anita Desai",
+          "source_timestamp": "4:26"
+        },
+        {
+          "description": "Send the URL format for the SAP approval screen deep link.",
+          "owner": "Vikram Shetty",
+          "due": "today",
+          "source_timestamp": "11:17"
+        },
+        {
+          "description": "Raise a request with IT for a test Teams channel.",
+          "owner": "Sneha Rao",
+          "source_timestamp": "12:01"
+        },
+        {
+          "description": "Track team's time spent on chasing approvals for two weeks before and after go-live to establish a baseline.",
+          "owner": "Anita Desai",
+          "source_timestamp": "12:19"
+        },
+        {
+          "description": "Send the Meeting of Minutes (MOM).",
+          "owner": "Priya Nair",
+          "due": "today",
+          "source_timestamp": "14:14"
+        },
+        {
+          "description": "Send the Business Requirements Document (BRD) draft.",
+          "owner": "Priya Nair",
+          "due": "by Monday",
+          "source_timestamp": "14:14"
+        },
+        {
+          "description": "Ping Meera from audit regarding audit log retention.",
+          "owner": "Rohan Mehta",
+          "source_timestamp": "10:34"
+        },
+        {
+          "description": "Copy Meera and Vikram on the MOM.",
+          "owner": "Priya Nair",
+          "source_timestamp": "14:21"
+        }
+      ],
+      "open_questions": [
+        {
+          "question": "Is the ten lakh threshold for a second approver based on the invoice amount with GST (gross) or without (net)?",
+          "owner": "Anita Desai",
+          "source_timestamp": "3:41"
+        },
+        {
+          "question": "Is the HR holiday list available in a system or an Excel file, and is there an API for it?",
+          "owner": "Anita Desai",
+          "source_timestamp": "4:15"
+        },
+        {
+          "question": "What is the required retention period for audit logs of reminders?",
+          "owner": "Meera",
+          "source_timestamp": "10:20"
+        }
+      ],
+      "mom_extra_cc": [
+        "Meera",
+        "Vikram Shetty"
+      ],
+      "jira_requests": [
+        "Link FINAUTO 1142 (bug about inactive user routing) to the new epic for this project (8:01)",
+        "Create an epic and stories under FINAUTO for this project (13:52)",
+        "Close FINAUTO 1098 (old ticket about email reminders) as a duplicate, linking it to the new epic (13:52)",
+        "Assign Karthik Iyer to the stories for this project (14:10)",
+        "Assign Sneha Rao to the test tasks for this project (14:10)"
+      ]
+    },
+    "jira_plan": {
+      "project_key": "FINAUTO",
+      "actions": [
+        {
+          "ref": "A1",
+          "action": "create_issue",
+          "rationale": "Requested to create an epic for the project to track invoice approval alerts and escalations.",
+          "source_timestamp": "13:52",
+          "issue_type": "Epic",
+          "summary": "Invoice Approval Alerting and Escalation Bot",
+          "description": "Implement automated reminders and escalation workflows for invoices stuck in the approval process to reduce late payments and increase early payment discount capture.",
+          "acceptance_criteria": [],
+          "labels": [
+            "meeting-ops"
+          ]
+        },
+        {
+          "ref": "A2",
+          "action": "link_issues",
+          "rationale": "Requested to close FINAUTO-1098 as a duplicate of the new epic.",
+          "source_timestamp": "13:52",
+          "acceptance_criteria": [],
+          "labels": [],
+          "issue": "FINAUTO-1098",
+          "link_type": "Duplicate",
+          "other_issue": "A1"
+        },
+        {
+          "ref": "A3",
+          "action": "transition_issue",
+          "rationale": "Requested to close FINAUTO-1098 as a duplicate.",
+          "source_timestamp": "13:52",
+          "acceptance_criteria": [],
+          "labels": [],
+          "issue": "FINAUTO-1098",
+          "transition_to": "Done",
+          "resolution": "Duplicate"
+        },
+        {
+          "ref": "A4",
+          "action": "link_issues",
+          "rationale": "Requested to link FINAUTO-1142 to the new epic as it's related to delegate data issues.",
+          "source_timestamp": "8:01",
+          "acceptance_criteria": [],
+          "labels": [],
+          "issue": "FINAUTO-1142",
+          "link_type": "Relates",
+          "other_issue": "A1"
+        },
+        {
+          "ref": "A5",
+          "action": "create_issue",
+          "rationale": "Story to define and implement the core SLA calculation logic based on invoice type, amount, and working days.",
+          "source_timestamp": "3:22",
+          "issue_type": "Story",
+          "summary": "Implement Invoice SLA Calculation Logic",
+          "description": "Develop and integrate the logic to calculate the approval SLA for invoices, considering normal, discount, and high-value invoices, and excluding 'On Hold' invoices.",
+          "acceptance_criteria": [
+            "Given an invoice with payment terms indicating no early payment discount, When the SLA is calculated, Then the SLA is three working days.",
+            "Given an invoice with payment terms indicating an early payment discount, When the SLA is calculated, Then the SLA is one working day.",
+            "Given an invoice with a gross amount above ten lakh, When the SLA is calculated, Then an additional one working day is added to its base SLA.",
+            "Given an invoice is marked as 'On Hold' in SAP, When the SLA calculation or reminder process runs, Then the invoice is excluded from any SLA breach checks or reminders."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A6",
+          "action": "create_issue",
+          "rationale": "Story to implement the primary reminder mechanism for approvers via Teams and email.",
+          "source_timestamp": "4:35",
+          "issue_type": "Story",
+          "summary": "Develop Approver Reminder Notifications (Teams/Email)",
+          "description": "Implement the system to send reminders to approvers for invoices breaching SLA, prioritizing Teams and falling back to email, with appropriate content and bundling rules.",
+          "acceptance_criteria": [
+            "Given an invoice has breached its SLA, When a reminder is triggered for an approver with Teams access, Then a reminder message is sent via Teams.",
+            "Given an invoice has breached its SLA, When a reminder is triggered for an approver without Teams access, Then a reminder message is sent via email.",
+            "Given an approver has multiple invoices pending, When a reminder is sent (excluding discount invoices), Then a single bundled message is sent containing all pending invoices, with the most urgent on top, at 10 AM and 3 PM IST.",
+            "Given a discount invoice is approaching or has breached its SLA, When a reminder is triggered, Then an individual, real-time reminder message is sent.",
+            "Given an invoice is due for a reminder, When the reminder is about to be sent, Then the system re-checks the invoice status in SAP to ensure it has not been approved."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A7",
+          "action": "create_issue",
+          "rationale": "Story to implement the escalation path for ignored reminders.",
+          "source_timestamp": "5:56",
+          "issue_type": "Story",
+          "summary": "Implement Invoice Approval Escalation Workflow",
+          "description": "Develop the escalation process for invoices that remain unapproved after initial reminders, involving managers and the Finance Controller, and notifying the AP team.",
+          "acceptance_criteria": [
+            "Given a normal invoice breaches SLA on Day 3, When the first reminder is sent to the approver, Then no further escalation occurs on Day 3.",
+            "Given a normal invoice is still unapproved on Day 4, When the system checks for escalation, Then a reminder is sent to the approver and their manager is copied.",
+            "Given a normal invoice is still unapproved on Day 6, When the system checks for escalation, Then a reminder is sent to the Finance Controller and the AP team is notified.",
+            "Given a discount invoice is 4 hours before SLA ends, When the system checks for escalation, Then a reminder is sent to the approver.",
+            "Given a discount invoice breaches SLA, When the system checks for escalation, Then a reminder is sent to the approver's manager.",
+            "Given a discount invoice is still unapproved by the end of Day 2 after breach, When the system checks for escalation, Then a reminder is sent to the Finance Controller."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A8",
+          "action": "create_issue",
+          "rationale": "Story to handle approvers who are on leave by routing reminders to delegates or managers.",
+          "source_timestamp": "7:08",
+          "issue_type": "Story",
+          "summary": "Handle Approvers on Leave with Delegate/Manager Routing",
+          "description": "Implement logic to identify approvers on leave and route reminders/escalations to their designated delegates or, if no delegate, to their manager.",
+          "acceptance_criteria": [
+            "Given an approver is on leave and has a valid delegate configured in SAP, When a reminder or escalation is triggered for an invoice assigned to them, Then the reminder/escalation is sent directly to the delegate.",
+            "Given an approver is on leave and has no valid delegate configured in SAP, When a reminder or escalation is triggered for an invoice assigned to them, Then the reminder/escalation is sent directly to their manager."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A9",
+          "action": "create_issue",
+          "rationale": "Story to provide the AP team with a daily digest of overdue and soon-to-be-overdue invoices.",
+          "source_timestamp": "8:13",
+          "issue_type": "Story",
+          "summary": "Provide Daily AP Team Invoice Status Digest",
+          "description": "Develop a daily digest message for the AP Teams channel, summarizing invoices past SLA and those that will breach SLA on the current day, grouped by approver.",
+          "acceptance_criteria": [
+            "Given it is 9 AM IST on a working day, When the daily digest is generated, Then a message is posted to the AP Teams channel.",
+            "Given there are invoices past SLA, When the daily digest is generated, Then the message lists these invoices, grouped by approver, showing days overdue and potential discount loss.",
+            "Given there are invoices that will breach SLA on the current day, When the daily digest is generated, Then the message includes these invoices, grouped by approver, showing their impending breach."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A10",
+          "action": "create_issue",
+          "rationale": "Story to implement logging for all reminder and escalation activities for audit purposes.",
+          "source_timestamp": "10:07",
+          "issue_type": "Story",
+          "summary": "Implement Audit Logging for Reminders and Escalations",
+          "description": "Ensure all reminder and escalation activities are logged comprehensively for audit purposes, including recipient, timestamp, channel, and delivery status.",
+          "acceptance_criteria": [
+            "Given a reminder or escalation message is sent, When the action is completed, Then an audit log entry is created.",
+            "Given an audit log entry is created, Then it includes the recipient's identity, the timestamp of sending, the communication channel used (Teams/email), and the delivery status (delivered/failed).",
+            "Given an audit log entry is created, Then it is stored with the same retention policy as invoice data (8 years, to be confirmed)."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A11",
+          "action": "create_issue",
+          "rationale": "Story to generate a report on approvers lacking valid delegates, identified as useful by Anita.",
+          "source_timestamp": "7:34",
+          "issue_type": "Story",
+          "summary": "Generate Monthly Report of Approvers Without Valid Delegates",
+          "description": "Develop a mechanism to generate a monthly report listing all approvers who do not have a valid delegate configured in SAP.",
+          "acceptance_criteria": [
+            "Given it is the end of the month, When the report generation process runs, Then a report is generated listing all active approvers who do not have a valid delegate assigned in SAP.",
+            "Given the report is generated, Then it is made available to the AP team (e.g., via email or shared drive)."
+          ],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A12",
+          "action": "create_issue",
+          "rationale": "Task to confirm the exact basis for the 10 lakh threshold for second approvers.",
+          "source_timestamp": "3:52",
+          "issue_type": "Task",
+          "summary": "Confirm 10 Lakh Invoice Threshold Basis (Gross/Net)",
+          "description": "Confirm whether the ten lakh threshold for requiring a second approver is based on the gross invoice amount (with GST) or net invoice amount (without GST).",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Anita Desai"
+        },
+        {
+          "ref": "A13",
+          "action": "create_issue",
+          "rationale": "Task to obtain the necessary holiday list for SLA calculations.",
+          "source_timestamp": "4:26",
+          "issue_type": "Task",
+          "summary": "Obtain Karnataka and Company Holiday List from HR",
+          "description": "Contact Deepa in HR to obtain the official list of Karnataka state holidays and company-specific holidays for use in SLA calculations. Also, inquire about API availability for this data.",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Anita Desai"
+        },
+        {
+          "ref": "A14",
+          "action": "create_issue",
+          "rationale": "Task for ERP team to provide the SAP deep link format.",
+          "source_timestamp": "11:17",
+          "issue_type": "Task",
+          "summary": "Provide SAP Approval Screen Deep Link URL Format",
+          "description": "Provide the exact URL format required to construct a deep link directly to the invoice approval screen in SAP.",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Vikram Shetty"
+        },
+        {
+          "ref": "A15",
+          "action": "create_issue",
+          "rationale": "Task for testing team to request a dedicated Teams channel for testing.",
+          "source_timestamp": "12:01",
+          "issue_type": "Task",
+          "summary": "Request Test Teams Channel for Invoice Bot Notifications",
+          "description": "Raise a request with the IT team to create a dedicated Teams channel for testing the invoice bot's notification and digest functionalities.",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Sneha Rao"
+        },
+        {
+          "ref": "A16",
+          "action": "create_issue",
+          "rationale": "Task to ensure the test environment supports time simulation for date-dependent scenarios.",
+          "source_timestamp": "11:49",
+          "issue_type": "Task",
+          "summary": "Configure Test Environment for Time Simulation",
+          "description": "Ensure the test environment for the invoice bot allows configuration of the current time to simulate date-dependent scenarios (e.g., SLA breaches, daily digests) without waiting for real-time passage.",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Karthik Iyer"
+        },
+        {
+          "ref": "A17",
+          "action": "create_issue",
+          "rationale": "Task to establish a baseline for measuring success metric of reduced manual chasing.",
+          "source_timestamp": "12:19",
+          "issue_type": "Task",
+          "summary": "Track AP Team Time Spent Chasing Approvals (Baseline)",
+          "description": "Track the time spent by the AP team on manually chasing invoice approvals for two weeks prior to go-live to establish a baseline for measuring efficiency improvements.",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Anita Desai"
+        },
+        {
+          "ref": "A18",
+          "action": "create_issue",
+          "rationale": "Task to confirm the audit log retention period with the audit team.",
+          "source_timestamp": "10:34",
+          "issue_type": "Task",
+          "summary": "Confirm Audit Log Retention Period with Audit Team",
+          "description": "Confirm the required retention period for audit logs of invoice reminders and escalations with Meera from the audit team.",
+          "acceptance_criteria": [],
+          "parent": "A1",
+          "labels": [
+            "meeting-ops"
+          ],
+          "assignee": "Rohan Mehta"
+        }
+      ],
+      "notes": [
+        "The action items for Priya Nair (sending MOM, BRD) are administrative and not JIRA-trackable development tasks, so they are not included in the JIRA plan.",
+        "The action item for Priya Nair to copy Meera and Vikram on the MOM is administrative and not a JIRA-trackable development task, so it is not included in the JIRA plan."
+      ]
+    },
+    "draft_warnings": [],
+    "processed_at": "2026-10-16T10:54:48+05:30"
+  }
+}

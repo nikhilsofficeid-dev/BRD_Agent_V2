@@ -1,0 +1,399 @@
+Invoice Approval Alerts - Requirements Discussion - 15 Oct 2026 - Transcript
+
+Priya Nair   0:04
+Hi, hi. Can you hear me? Okay. Let's give it a minute, I think Sneha and Anita are still joining.
+
+Rohan Mehta   0:12
+Yeah, Anita pinged, she's coming out of the vendor call.
+
+Priya Nair   0:19
+Okay cool. Karthik, you're there?
+
+Karthik Iyer   0:23
+Yeah, yeah, I'm here. Just, my video's off, bandwidth is bad today.
+
+Priya Nair   0:27
+No worries.
+
+Sneha Rao   0:51
+Hi everyone, sorry, sorry, back to back since morning.
+
+Priya Nair   0:55
+No problem. Okay so we'll wait for Anita one more minute and then start. Actually let me just start with the context and she can catch up.
+
+Anita Desai   1:06
+Hello? Am I audible?
+
+Priya Nair   1:08
+Yes, Anita, perfect timing. Okay, so, um, thanks everyone. The idea for today is basically, Rohan raised this item in the last sprint review about invoices getting stuck at approval, and we want to see if we can add something to the invoice automation to handle that. So today is more like understanding the problem, what exactly we need, so that I can put it into stories and we can take it up in refinement. I'll be recording this, hope that's okay with everyone.
+
+Rohan Mehta   1:38
+Yeah fine.
+
+Priya Nair   1:40
+Rohan, you want to give the background?
+
+Rohan Mehta   1:42
+Sure. So, uh, see, the invoice bot is working fine till the routing part. OCR, PO matching, sending to the right approver based on cost center, all that is fine. Problem is after that. Once it goes to the approver queue nobody tracks it. The approver gets one email and that's it. And then it just sits. Last quarter I think we had, Anita correct me, around 18 percent invoices paid late?
+
+Anita Desai   2:10
+Eighteen, nineteen, somewhere there. And the bigger issue is the discounts. We missed early payment discount on, I think, Sharma Logistics, Bluepeak, two or three big vendors. That's real money.
+
+Rohan Mehta   2:24
+Yeah, and CFO has asked about it twice now. So we need the bot to basically follow up and escalate when approvals get stuck.
+
+Priya Nair   2:33
+Okay. Anita, from your team's side, what does it look like day to day? Like what are your people actually doing right now?
+
+Anita Desai   2:41
+Honestly, chasing. Monday morning my team just sits and sends emails, "please approve, please approve." Half the approvers are travelling, plant managers are on the floor, they don't check mail. And vendors call us, "where is my payment," and we don't even know who is holding it. We have to go into SAP, check the workflow, then mail that person, then mail their manager. It's a mess.
+
+Priya Nair   3:08
+So two things, right? One, approvers are forgetting or not seeing it. Two, your team doesn't have visibility.
+
+Anita Desai   3:15
+Yes, both.
+
+Priya Nair   3:17
+Okay. So when do we call an invoice stuck? Is it like a fixed number of days?
+
+Anita Desai   3:22
+No, it depends. Normal invoices, approval SLA is three working days. But if there's an early payment discount, then it has to be approved in one day, otherwise we lose it. And above ten lakh it needs a second approver, so that takes, add one more day for those.
+
+Karthik Iyer   3:41
+Sorry, one second, above ten lakh, is that the invoice amount with GST or without?
+
+Anita Desai   3:46
+Uh, good question. I think with. Gross. Actually let me confirm that, I don't want to say wrong.
+
+Priya Nair   3:52
+Okay, I'll note that, Anita to confirm. Karthik, does the bot already know about the discount terms?
+
+Karthik Iyer   3:59
+Yeah, payment terms we get from vendor master, so discount terms we can read. Amount is on the invoice anyway. The tricky part is working days. We'll need the holiday list.
+
+Anita Desai   4:10
+We follow Karnataka holidays plus company holidays. HR has the list.
+
+Karthik Iyer   4:15
+Is it in some system or is it like an Excel?
+
+Anita Desai   4:18
+I think it's on the HR portal. I'm not sure if there's an API.
+
+Priya Nair   4:22
+Okay, so that's a dependency. Who can check with HR?
+
+Anita Desai   4:26
+I'll ask Deepa in HR.
+
+Priya Nair   4:28
+Perfect. Okay so now, once an invoice crosses the SLA, what should happen?
+
+Rohan Mehta   4:35
+Reminder to the approver. But on Teams please, not email. Email is where these things go to die.
+
+Anita Desai   4:42
+[laughs] True.
+
+Priya Nair   4:44
+Only Teams, or Teams and email both?
+
+Rohan Mehta   4:47
+Teams first. Actually some plant guys are not on Teams, they don't have licenses. So for them email.
+
+Karthik Iyer   4:54
+So email only as fallback if the user doesn't have Teams?
+
+Rohan Mehta   4:57
+Yeah.
+
+Priya Nair   4:59
+Okay. And what should the message have? Like imagine you're the approver, you're on your phone.
+
+Anita Desai   5:06
+Vendor name, invoice number, amount, due date, how many days it's pending. And a link to approve directly. If they can approve from Teams itself that'll be amazing.
+
+Karthik Iyer   5:18
+Approve from Teams is possible with adaptive cards but, see, then SAP has to accept the call from our bot. I don't know how the ERP team will feel about that, authentication and all. A deep link to the approval screen is easy, that I can do.
+
+Rohan Mehta   5:33
+Let's do the link first. Approve from Teams we can see later.
+
+Priya Nair   5:37
+Okay, so deep link for now, in-card approval later, need to check with ERP team. Karthik, who's the ERP contact?
+
+Karthik Iyer   5:45
+Vikram. Vikram Shetty. I actually added him to this call, I don't think he's joined.
+
+Priya Nair   5:50
+Okay, we'll catch him. So, if the approver ignores the reminder, then?
+
+Anita Desai   5:56
+Then their manager. And then if still not done, Finance Controller.
+
+Priya Nair   6:02
+Can we put days on that? For a normal invoice.
+
+Anita Desai   6:05
+Um, day three it breaches, so day three reminder. Day four, another reminder and copy the manager. Day six, Controller. And my team should know also at that point.
+
+Priya Nair   6:18
+And discount invoices?
+
+Anita Desai   6:20
+That has to be faster. Maybe, four hours before the SLA ends, remind. At breach, manager. And end of day two, Controller.
+
+Sneha Rao   6:31
+Sorry, quick question, when you say four hours, is it business hours? Like if the invoice comes at six PM on Friday, the clock runs on the weekend or no?
+
+Anita Desai   6:40
+Business hours. Nine to six.
+
+Sneha Rao   6:43
+Nine to six IST, Monday to Friday?
+
+Anita Desai   6:45
+Yes.
+
+Sneha Rao   6:46
+And Singapore? Because the Singapore entity approvers also come through the same bot, no?
+
+Rohan Mehta   6:51
+Hmm. Yeah, they do. Uh, let's keep Singapore out for now. Everything IST. We'll do Singapore in phase two.
+
+Priya Nair   6:59
+Okay, parking Singapore. Anita, what about people on leave? If the approver is on leave, sending three reminders doesn't help.
+
+Anita Desai   7:08
+That's actually the biggest problem. Leave. If they're on leave it should go to their delegate directly. If no delegate, the manager.
+
+Karthik Iyer   7:17
+Out of office we can read from Outlook through Graph API. But we'll need permission from the IT security team for that. And delegate is maintained in SAP, but honestly half the delegate data is wrong. Like people who left the company are still delegates.
+
+Anita Desai   7:32
+Yeah, I know.
+
+Priya Nair   7:34
+So, would it help if you get a report of approvers who don't have a valid delegate?
+
+Anita Desai   7:39
+Yes, that would be very useful. Monthly is fine.
+
+Priya Nair   7:42
+Okay, I'll make that a separate small story.
+
+Rohan Mehta   7:45
+Sorry, before we go on, Karthik, is this related to that bug where the approver was getting routed to an inactive user? That one ticket.
+
+Karthik Iyer   7:53
+The 1142? Yeah, FINAUTO 1142. Same root cause, the delegate master is bad. That's still open actually.
+
+Rohan Mehta   8:01
+Okay, can we link that to this? Whatever epic we make for this.
+
+Priya Nair   8:05
+Yeah, I'll link it. Okay, Anita, you said your team doesn't have visibility. What would help you?
+
+Anita Desai   8:13
+Some daily list. Morning, like nine AM, in our AP Teams channel. All invoices past SLA, grouped by approver, how many days overdue and how much discount we're going to lose.
+
+Rohan Mehta   8:26
+Eventually a dashboard would be nice. Power BI or something. But the daily list solves most of it.
+
+Priya Nair   8:32
+Okay, daily digest now, dashboard backlog. How many invoices per day roughly?
+
+Anita Desai   8:37
+Six hundred average. Month end it goes up, fifteen hundred, sometimes more.
+
+Karthik Iyer   8:43
+Volume is fine. But one thing, we can't send one Teams message per invoice. If some approver has forty pending, he'll get forty pings. He'll just mute the bot.
+
+Anita Desai   8:53
+[laughs] He will.
+
+Priya Nair   8:55
+So bundle per approver?
+
+Anita Desai   8:57
+Yes, one message with all his pending ones. Most urgent on top.
+
+Priya Nair   9:01
+How often? Every hour, twice a day?
+
+Rohan Mehta   9:04
+Twice. Ten AM and three PM. But discount ones should go individually because those are time critical.
+
+Karthik Iyer   9:12
+Okay so discount ones are real time, rest are batched twice a day.
+
+Rohan Mehta   9:16
+Yeah.
+
+Sneha Rao   9:17
+One case, what if the invoice gets approved between when the bot checks and when it sends? I don't want someone getting chased for something they already approved. That'll be the first complaint.
+
+Karthik Iyer   9:28
+I'll recheck the status just before sending. Window will be very small.
+
+Sneha Rao   9:32
+Okay, I'll add that as a test case.
+
+Priya Nair   9:35
+Can people opt out? Or snooze?
+
+Rohan Mehta   9:38
+No opt out. Snooze, hmm, it kind of defeats the purpose. No snooze for now.
+
+Anita Desai   9:44
+But if the invoice is on hold, like vendor dispute, then don't send anything.
+
+Karthik Iyer   9:49
+There's an On Hold status in SAP, I can exclude that.
+
+Priya Nair   9:53
+Who can put it on hold? Because otherwise approvers will just put everything on hold to stop the reminders.
+
+Anita Desai   9:59
+Only AP team can. Approvers can't.
+
+Priya Nair   10:02
+Okay good. Audit, does anyone need logs of these reminders?
+
+Rohan Mehta   10:07
+Yes, definitely. Last year internal audit asked why a forty lakh invoice was paid late and we had no trail. So log everything. Who got it, when, Teams or email, delivered or failed.
+
+Karthik Iyer   10:20
+I'll use the existing audit table. Retention?
+
+Rohan Mehta   10:23
+Same as invoices. Eight years, I think. Actually, let's check with Meera from audit, she'll know.
+
+Priya Nair   10:29
+Okay, Meera to confirm retention. Rohan, can you check with her or should I?
+
+Rohan Mehta   10:34
+You can just mark her in the MOM, I'll ping her also.
+
+Priya Nair   10:37
+Done.
+
+Vikram Shetty   10:41
+Hi, sorry, sorry, I was in another meeting. Vikram here.
+
+Karthik Iyer   10:44
+Vikram, perfect. Quick one. We want to send approval reminders from the bot on Teams, and later maybe approve directly from Teams. Is it possible for the bot to call the SAP approval API?
+
+Vikram Shetty   10:56
+Uh, technically yes, the workflow API is there. But it'll have to be done with the user's identity, not a service account, otherwise audit will raise it. So you'll need SSO, OAuth, all that. It's not small.
+
+Karthik Iyer   11:09
+That's what I thought.
+
+Vikram Shetty   11:11
+Deep link is no problem. I can send you the URL format for the approval screen.
+
+Karthik Iyer   11:15
+Yeah, please send that.
+
+Vikram Shetty   11:17
+I'll mail it today. And also the delegate table, I heard you mention, there's a cleanup we started, I think there's a ticket on our side. I'll find it.
+
+Priya Nair   11:27
+That would be great Vikram, can you share the ticket number so we can link it?
+
+Vikram Shetty   11:31
+Yeah, I'll put it in chat.
+
+Priya Nair   11:33
+Thanks. Sneha, anything from testing side we need?
+
+Sneha Rao   11:37
+Test data mainly. I need a test Teams channel, and in SAP QA I need invoices where I can control the dates. Otherwise I'll be waiting three days to test a three day SLA. [laughs]
+
+Karthik Iyer   11:49
+I'll make current time configurable in the test environment. You can just shift it.
+
+Sneha Rao   11:54
+Okay, that works. And the Teams channel?
+
+Karthik Iyer   11:57
+I'll raise a request with IT. Or, you raise it, you know the process better.
+
+Sneha Rao   12:01
+Fine, I'll raise.
+
+Priya Nair   12:03
+Okay. Rohan, how do we know this worked? Success criteria.
+
+Rohan Mehta   12:08
+Late payments below five percent within two months of go live. Discount capture above ninety percent. And Anita's team not wasting Mondays.
+
+Priya Nair   12:17
+Can we measure that last one?
+
+Anita Desai   12:19
+I can ask my team to track time for two weeks before and after.
+
+Priya Nair   12:23
+Perfect, that's our baseline. Timeline, any hard date?
+
+Rohan Mehta   12:27
+Quarter end close is first week of January. Ideally before that.
+
+Priya Nair   12:32
+That's like two sprints. Karthik, rough effort?
+
+Karthik Iyer   12:35
+SLA logic plus Teams reminders, one sprint. Escalation, out of office, digest, another sprint. If Graph permission gets delayed then out of office will slip. And approve from Teams, no chance before January.
+
+Rohan Mehta   12:49
+Fine, that's not in scope anyway.
+
+Priya Nair   12:52
+Okay, let me just read back what I have and you guys correct me. So we're adding SLA based reminders and escalation to the invoice bot. SLA is three working days normal, one day for discount, plus one day for above ten lakh, and Anita confirms if ten lakh is gross or net. IST business hours, holiday calendar from HR. Reminders on Teams, email fallback for non-Teams users, bundled per approver ten AM and three PM, discount ones individual. Escalation to manager then Controller. On leave goes to delegate or manager. On hold excluded. AP gets a nine AM digest. Everything logged. Out of scope for now is Singapore, approve from Teams, dashboard, snooze. Right?
+
+Anita Desai   13:41
+One thing. The digest should also have invoices that will breach today. Not only the ones already breached. Those are the ones we can still save.
+
+Priya Nair   13:50
+Good point, adding that.
+
+Rohan Mehta   13:52
+And Priya, can you create the epic and stories in JIRA? Under FINAUTO. And that old ticket, the 1098 one, the one about email reminders that we raised last year, close that as duplicate, this replaces it.
+
+Priya Nair   14:05
+Yeah, 1098, I'll close it and link. And 1142 linked as related.
+
+Rohan Mehta   14:10
+Yeah. And put Karthik on the stories, Sneha on the test tasks.
+
+Priya Nair   14:14
+Sure. I'll send the MOM today and the BRD draft, um, by Monday? Then we refine on Tuesday.
+
+Rohan Mehta   14:21
+Monday is fine. Copy Meera and Vikram on the MOM.
+
+Priya Nair   14:25
+Will do. Anything else from anyone?
+
+Karthik Iyer   14:28
+No, I'm good. Vikram, don't forget the URL format.
+
+Vikram Shetty   14:31
+Yeah yeah, today itself.
+
+Sneha Rao   14:33
+Nothing from me.
+
+Anita Desai   14:35
+Thanks Priya, this is really needed.
+
+Priya Nair   14:38
+Thanks everyone. Bye.
+
+Rohan Mehta   14:40
+Bye.
+
+Priya Nair stopped transcription

@@ -1,0 +1,32 @@
+# Names spoken in calls -> email + JIRA identity.
+# The agent never guesses addresses; anyone missing here is reported as unresolved.
+# jira_account_id is optional: if blank, the agent looks the user up by email in JIRA.
+people:
+  - name: Priya Nair
+    email: priya.nair@example.com
+    jira_account_id:
+    aliases: [Priya]
+  - name: Rohan Mehta
+    email: rohan.mehta@example.com
+    jira_account_id:
+    aliases: [Rohan]
+  - name: Anita Desai
+    email: anita.desai@example.com
+    jira_account_id:
+    aliases: [Anita]
+  - name: Karthik Iyer
+    email: karthik.iyer@example.com
+    jira_account_id:
+    aliases: [Karthik]
+  - name: Sneha Rao
+    email: sneha.rao@example.com
+    jira_account_id:
+    aliases: [Sneha]
+  - name: Vikram Shetty
+    email: vikram.shetty@example.com
+    jira_account_id:
+    aliases: [Vikram]
+  - name: Meera Kulkarni
+    email: meera.kulkarni@example.com
+    jira_account_id:
+    aliases: [Meera, Meera from audit]
