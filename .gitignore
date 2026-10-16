@@ -1,0 +1,11 @@
+# secrets and local settings
+.env
+
+# runtime data
+.adk/
+__pycache__/
+*.pyc
+.pytest_cache/
+local_data/meetings/
+local_data/outputs/
+output/
